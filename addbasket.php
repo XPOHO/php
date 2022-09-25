@@ -13,7 +13,17 @@ $request = \Bitrix\Main\Application::getInstance()->getContext()->getRequest();
 
 $productId = $request->getPost("prod");
 $quantity = $request->getPost("quantity");
+
+
+if (empty($quantity)){
+
+    $quantity=1;
+
+}
+
+
 $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
+
 
 
 if ($item = $basket->getExistsItem('catalog', $productId)) {

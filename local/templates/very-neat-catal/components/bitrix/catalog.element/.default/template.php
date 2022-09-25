@@ -177,7 +177,7 @@ if (!$USER->IsAuthorized()) // Для неавторизованного
     }
 
 }
-$idProd=$arResult['ID'];
+$idProd = $arResult['ID'];
 ?>
     <main class="product-page">
         <div class="container">
@@ -189,34 +189,38 @@ $idProd=$arResult['ID'];
                             <!-- max 4 items -->
 
 
-<!--                            <div class="slide-item swiper-slide">-->
-<!--                                <div class="video-wrapper">-->
-<!--                                    <a href="javascript:void(0);" class="video-link">-->
-<!--                                        <video class="video-item" preload="1" muted="muted"-->
-<!--                                               poster="images/main/product_page/product_image2.jpg">-->
-<!--                                            <source src="assets/videos/1.mp4" type="video/mp4">-->
-<!--                                        </video>-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="slide-item swiper-slide">-->
+                            <!--                                <div class="video-wrapper">-->
+                            <!--                                    <a href="javascript:void(0);" class="video-link">-->
+                            <!--                                        <video class="video-item" preload="1" muted="muted"-->
+                            <!--                                               poster="images/main/product_page/product_image2.jpg">-->
+                            <!--                                            <source src="assets/videos/1.mp4" type="video/mp4">-->
+                            <!--                                        </video>-->
+                            <!--                                    </a>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
                             <?
-
-                            foreach ($arResult["OFFERS"][0]["PROPERTIES"]["MORE_PHOTO"]["VALUE"] as $itemFoto){
-
+$mainFoto="";
+                            foreach ($arResult["OFFERS"][0]["PROPERTIES"]["MORE_PHOTO"]["VALUE"] as $itemFoto) {
 
 
                                 $renderImageProd = CFile::ResizeImageGet($itemFoto, array("width" => 383, "height" => 578), BX_RESIZE_IMAGE_PROPORTIONAL);
                                 $photoProd = $renderImageProd["src"];
 
+                                if (empty($mainFoto)){
+
+                                    $mainFoto=  $photoProd;
+
+                                }
 
                                 $photoProdGalery = CFile::GetPath($itemFoto);
 
 
                                 ?>
                                 <div class="slide-item swiper-slide">
-                                    <a href="<?=$photoProdGalery?>" data-link="gallery"
+                                    <a href="<?= $photoProdGalery ?>" data-link="gallery"
                                        class="gallery-link">
-                                        <img src="<?=$photoProd?>" alt="product-image"
+                                        <img src="<?= $photoProd ?>" alt="product-image"
                                              class="product-image">
                                     </a>
                                 </div>
@@ -229,23 +233,23 @@ $idProd=$arResult['ID'];
                 </div>
                 <div class="product-page__content__right-side">
 
-                    <?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "breadcrumb-prod", Array(
-                        "PATH" => "",	// Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
-                        "SITE_ID" => "s1",	// Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)
-                        "START_FROM" => "0",	// Номер пункта, начиная с которого будет построена навигационная цепочка
+                    <? $APPLICATION->IncludeComponent("bitrix:breadcrumb", "breadcrumb-prod", array(
+                        "PATH" => "",    // Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
+                        "SITE_ID" => "s1",    // Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)
+                        "START_FROM" => "0",    // Номер пункта, начиная с которого будет построена навигационная цепочка
                     ),
                         false
-                    );?>
+                    ); ?>
 
-                    <h1 class="product-page__title page-title"><?=$arResult["NAME"]?></h1>
+                    <h1 class="product-page__title page-title"><?= $arResult["NAME"] ?></h1>
                     <div class="product-info">
-                        <span class="article"><?=$arResult["PROPERTIES"]['ARTNUMBER']['VALUE']?></span>
+                        <span class="article"><?= $arResult["PROPERTIES"]['ARTNUMBER']['VALUE'] ?></span>
                         <div class="tags-list">
 
 
                             <?
 
-                            if(!empty($arResult["PROPERTIES"]['SALELEADER']['VALUE'])){
+                            if (!empty($arResult["PROPERTIES"]['SALELEADER']['VALUE'])) {
                                 ?>
                                 <div class="tags-list__item sale">Лидер продаж</div>
                                 <?
@@ -254,7 +258,7 @@ $idProd=$arResult['ID'];
 
                             <?
 
-                            if(!empty($arResult["PROPERTIES"]['NEWPRODUCT']['VALUE'])){
+                            if (!empty($arResult["PROPERTIES"]['NEWPRODUCT']['VALUE'])) {
                                 ?>
 
                                 <div class="tags-list__item new">NEW</div>
@@ -282,7 +286,10 @@ $idProd=$arResult['ID'];
                                     <a href="javascript:void(0);" class="count-btn plus-btn"><i
                                                 class="icon icon-count_arrow"></i></a>
                                 </div>
-                                <a href="#"  data-item="<?=$idProd?>" class="favorite-link <? if (isset($favoritesAr[$idProd])){echo "active";}  ?> "><i class="icon icon-heart_fill"></i></a>
+                                <a href="#" data-item="<?= $idProd ?>"
+                                   class="favorite-link <? if (isset($favoritesAr[$idProd])) {
+                                       echo "active";
+                                   } ?> "><i class="icon icon-heart_fill"></i></a>
                             </form>
                         </div>
                     </div>
@@ -290,12 +297,13 @@ $idProd=$arResult['ID'];
 
                         <?
 
-                        if (!empty($arResult["PROPERTIES"]["MANUFACTURER"]["VALUE"])){
+                        if (!empty($arResult["PROPERTIES"]["MANUFACTURER"]["VALUE"])) {
 
 
-                            ?><div class="product-properties__item">
+                            ?>
+                            <div class="product-properties__item">
                             <span class="property-name">Производитель</span>
-                            <span class="property-value"><?=$arResult["PROPERTIES"]['MANUFACTURER']["VALUE"]?></span>
+                            <span class="property-value"><?= $arResult["PROPERTIES"]['MANUFACTURER']["VALUE"] ?></span>
                             </div><?
 
 
@@ -305,54 +313,118 @@ $idProd=$arResult['ID'];
 
                         <?
 
-                        if (!empty($arResult["PROPERTIES"]["MATERIAL"]["VALUE"])){
+                        if (!empty($arResult["PROPERTIES"]["MATERIAL"]["VALUE"])) {
 
 
-                            ?> <div class="product-properties__item">
+                            ?>
+                            <div class="product-properties__item">
                                 <span class="property-name">Материал</span>
-                                <span class="property-value"><?=$arResult["PROPERTIES"]['MATERIAL']["VALUE"][0]?></span> </div>
+                                <span class="property-value"><?= $arResult["PROPERTIES"]['MATERIAL']["VALUE"][0] ?></span>
+                            </div>
                             <?
 
 
                         }
 
                         ?>
-                           <?
+                        <?
 
-                        if (!empty($arResult["PROPERTIES"]["M"]["VALUE"])){
+                        if (!empty($arResult["PROPERTIES"]["CANVAS"]["VALUE"])) {
 
 
-                            ?><?
+                            ?>
+
+                            <div class="product-properties__item">
+                                <span class="property-name">Холст</span>
+                                <span class="property-value"><?= $arResult["PROPERTIES"]['CANVAS']["VALUE"] ?></span>
+                            </div>
+
+
+                            <?
 
 
                         }
 
-                           if (!empty($arResult["PROPERTIES"]["M"]["VALUE"])){
+                        if (!empty($arResult["PROPERTIES"]["COUNTRY"]["VALUE"])) {
 
 
-                               ?><?
+                            ?>
+
+                            <div class="product-properties__item">
+                                <span class="property-name">Страна</span>
+                                <span class="property-value"><?= $arResult["PROPERTIES"]['COUNTRY']["VALUE"] ?></span>
+                            </div>
 
 
-                           }
+                            <?
+
+
+                        }
+                        if (!empty($arResult["PROPERTIES"]["SEASON"]["VALUE"])) {
+
+
+                            ?>
+
+
+                            <div class="product-properties__item">
+                                <span class="property-name">Сезон</span>
+                                <span class="property-value"><?= $arResult["PROPERTIES"]['SEASON']["VALUE"] ?></span>
+                            </div>
+
+
+                            <?
+
+
+                        }
+                        if (!empty($arResult["PROPERTIES"]["YEAR"]["VALUE"])) {
+                            ?>
+                            <div class="product-properties__item">
+                                <span class="property-name">Год</span>
+                                <span class="property-value"><?= $arResult["PROPERTIES"]['YEAR']["VALUE"] ?></span>
+                            </div>
+                            <?
+                        }
+                        if (!empty($arResult["PROPERTIES"]["POLOTNO"]["VALUE"])) {
+
+                            ?>
+
+                            <div class="product-properties__item">
+                                <span class="property-name">Полотно</span>
+                                <span class="property-value"><?= $arResult["PROPERTIES"]['POLOTNO']["VALUE"] ?></span>
+                            </div>
+                            <?
+                        }
 
                         ?>
-
-                        <div class="product-properties__item">
-                            <span class="property-name">Стиль</span>
-                            <span class="property-value">Платье</span>
-                        </div>
-                        <div class="product-properties__item">
-                            <span class="property-name">Состав</span>
-                            <span class="property-value">Шерсть</span>
-                        </div>
                         <div class="product-properties__item properties-size">
                             <div class="select-row">
                                 <span class="property-name">Размер</span>
                                 <div class="input-group select-group">
                                     <select name="size" class="choice-select">
-                                        <option value="1">Выбрать размер</option>
-                                        <option value="1">Выбрать размер</option>
-                                        <option value="1">Выбрать размер</option>
+                                        <option value="">Выбрать размер</option>
+
+                                        <?
+
+                                        foreach ($arResult["OFFERS"] as $itemOffer){
+
+if (empty($itemOffer["PRODUCT"]["QUANTITY"])){
+    //TO DO раскрыть при наладке цен.
+   // continue;
+
+}
+                                            ?>
+
+
+                                            <option data-price="" value="<?=$itemOffer["ID"]?>"><?=$itemOffer['PROPERTIES']['SIZES_CLOTHES']['VALUE_ENUM']?></option>
+
+
+                                            <?
+
+
+
+                                        }
+
+                                        ?>
                                     </select>
                                     <a href="javascript:void(0);" data-micromodal-trigger="modal-sizes"
                                        class="size-info-link">Инфо о размере</a>
@@ -362,25 +434,128 @@ $idProd=$arResult['ID'];
                         </div>
                         <div class="product-properties__item properties-color">
                             <span class="property-name">Цвет</span>
-                            <span class="property-value color-value"><span style="background-color: #fff;"></span>Белый</span>
+
+
+                            <?
+
+
+                            CModule::IncludeModule('highloadblock');
+                            $IDHighload = 2;
+                            $hldata = Bitrix\Highloadblock\HighloadBlockTable::getById($IDHighload)->fetch();
+                            $hlentity = Bitrix\Highloadblock\HighloadBlockTable::compileEntity($hldata);
+                            $hlDataClass = $hldata["NAME"] . "Table";
+
+
+                            if (empty($mainColor)) {
+                                $resultColor = $hlDataClass::getList(array(
+                                    "select" => array("ID", "UF_NAME", "UF_XML_ID", "UF_COLORCOD"), // Поля для выборки
+                                    "order" => array(),
+                                    "filter" => array("UF_XML_ID" => $itemOffer['PROPERTIES']["COLOR_REF"]['VALUE']),
+                                ));
+                                if ($resp = $resultColor->fetch()) {
+                                    $mainColor = $resp['UF_COLORCOD'];
+                                    $mainColorName = $resp['UF_NAME'];
+                                }
+                            }
+                            if (empty($mainColor)){
+                                $mainColor="#8A8972";
+                            }
+
+                            ?>
+                            <span class="property-value color-value"><span style="background-color: <?=$mainColor?>;"></span><?=$mainColorName?></span>
                         </div>
                         <div class="product-properties__item properties-color-slider">
                             <div id="product-colors" class="product-colors swiper">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide slide-item">
-                                        <a href="javascript:void(0);" class="slide-link">
-                                            <img src="images/main/product_page/color_image.jpg" alt="color"
-                                                 class="slide-image">
-                                            <span class="slide-title">Белый</span>
-                                        </a>
-                                    </div>
-                                    <div class="swiper-slide slide-item">
-                                        <a href="javascript:void(0);" class="slide-link active">
-                                            <img src="images/main/product_page/color_image.jpg" alt="color"
-                                                 class="slide-image">
-                                            <span class="slide-title">Розовый</span>
-                                        </a>
-                                    </div>
+
+
+
+
+
+
+                                    <?
+                                    $articl = $arResult["PROPERTIES"]["ARTNUMBER"]["VALUE"];
+                                    $maxCart = 5;
+                                    $totalCart = 0;
+                                    $plusColor = 0;
+                                    $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PAGE_URL", "PROPERTY_*");
+                                    $arFilter = array("IBLOCK_ID" => 2, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_ARTNUMBER" => $articl);
+                                    $resProd = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                                    while ($obProd = $resProd->GetNextElement()) {
+                                        $totalCart++;
+                                        if ($totalCart > $maxCart) {
+                                            $plusColor++;
+                                            continue;
+                                        }
+                                        $arFieldsProd = $obProd->GetFields();
+//                                        if ($arFieldsProd["ID"] == $idSkeep) {
+//                                            continue;
+//                                        }
+                                        $idProd = $arFieldsProd["ID"];
+                                        $code = $arFieldsProd["CODE"];
+                                        $url = $arFieldsProd["DETAIL_PAGE_URL"];
+                                        $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PICTURE", "PROPERTY_*");
+                                        $arFilter = array("IBLOCK_ID" => 3, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_CML2_LINK" => $arFieldsProd["ID"]);
+                                        $resOffer = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                                        if ($obOffer = $resOffer->GetNextElement()) {
+                                            $arFieldsOffer = $obOffer->GetFields();
+                                            /// print_r($arFieldsOffer);
+                                            $renderImage = CFile::ResizeImageGet($arFieldsOffer["DETAIL_PICTURE"], array("width" => 90, "height" => 120), BX_RESIZE_IMAGE_PROPORTIONAL);
+                                            $Photo = $renderImage["src"];
+                                            $arProps = $obOffer->GetProperties();
+
+                                            $resultColor = $hlDataClass::getList(array(
+                                                "select" => array("ID", "UF_NAME", "UF_XML_ID", "UF_COLORCOD"), // Поля для выборки
+                                                "order" => array(),
+                                                "filter" => array("UF_XML_ID" => $arProps["COLOR_REF"]['VALUE']),
+                                            ));
+
+
+
+
+
+                                            if ($resp = $resultColor->fetch()) {
+                                                $mainColor = $resp['UF_COLORCOD'];
+                                                $mainColorName = $resp['UF_NAME'];
+                                                $arCart[] = [
+                                                    "id" => $idProd,
+                                                    "code" => $code,
+                                                    "img" => "$Photo",
+                                                    "color" => "$mainColor",
+                                                    "href" => $url,
+                                                ];
+                                                ?>
+
+                                                <div class="swiper-slide slide-item">
+<!--                                                    <a href="javascript:void(0);" class="slide-link -->
+                                                    <a href="<?=$url?>" class="slide-link
+                                                    <?
+
+                                                    if ($idProd==$arResult["ID"]){
+
+                                                        ?>active<?
+
+                                                    }
+
+                                                    ?>">
+                                                        <img src="<?=$Photo?>" alt="color"
+                                                             class="slide-image">
+                                                        <span class="slide-title"><?=$mainColorName?></span>
+                                                    </a>
+                                                </div>
+
+
+                                                <?
+
+
+                                            }
+                                        }
+                                    }
+
+
+
+                                    ?>
+
                                     <!--
                                 <div class="swiper-slide slide-item">
                                     <a href="javascript:void(0);" class="slide-link disabled">
@@ -419,10 +594,10 @@ $idProd=$arResult['ID'];
                         <div class="descr-tab">
                             <h3 class="tab-title">Описание товара</h3>
                             <div class="tab-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad asperiores consectetur
-                                    corporis deleniti dolorem doloremque enim est, et eveniet exercitationem facere
-                                    labore laboriosam libero optio placeat ratione repellat repudiandae sequi!</span>
-                                    <span>Aliquam asperiores cumque distinctio excepturi fugit ipsum molestias quidem voluptate. Alias, cupiditate ex facere itaque iure maiores sed similique voluptatem? Delectus ea exercitationem mollitia nostrum saepe. A blanditiis facilis molestiae!</span><span>Aspernatur consectetur maiores, placeat quam quibusdam ratione. Aperiam at consectetur dolor eaque eius, est fuga fugiat iusto neque numquam obcaecati provident quasi repudiandae sapiente soluta tempora totam velit veritatis voluptas.</span><span>Delectus deserunt earum exercitationem illum magni neque reiciendis sint voluptas. Aperiam assumenda autem ducimus eos et ex explicabo iste itaque necessitatibus neque nulla quaerat, quas quia, rerum sequi veritatis voluptatum?</span><span>Aliquam aliquid animi autem blanditiis consequatur deleniti dignissimos eos est et excepturi hic illum labore laboriosam laudantium, magnam mollitia nemo neque perferendis quis similique suscipit totam voluptate. Consequuntur, dolorum odit?</span><span>Beatae corporis deleniti eligendi excepturi, praesentium quae quibusdam quidem sapiente. Ab accusamus ad amet dolorum, esse et, fugiat labore molestias nostrum omnis qui quia quidem reiciendis rerum sed suscipit voluptas!</span><span>A amet animi delectus et exercitationem illum nam neque nobis nulla optio qui quia, quis quisquam repellat sunt veniam voluptatibus voluptatum. Aspernatur cum id provident ratione, sequi tempora ut voluptatum?</span><span>Accusamus animi aut blanditiis eaque explicabo fuga, fugiat ipsam labore laborum libero modi perspiciatis provident quis quos rem reprehenderit sint voluptas voluptates voluptatibus voluptatum. Doloremque ex labore molestiae possimus quos?</span><span>Incidunt molestias quae quas voluptas? Et fugiat ipsa necessitatibus porro reiciendis sint veniam veritatis! Accusantium alias asperiores blanditiis consequatur eos optio reprehenderit, rerum voluptates! Cupiditate dolorem similique tenetur! Libero, vero.</span><span>At eveniet itaque, libero nihil non numquam placeat quaerat, quis reiciendis, ut vitae voluptas? Accusantium aliquam at aut deserunt, dolorem excepturi nostrum nulla numquam perferendis, possimus temporibus totam voluptas voluptate?
+                                <p>
+
+                                    <?=$arResult["DETAIL_TEXT"]?>
+
                                 </p>
                             </div>
                         </div>
@@ -438,18 +613,17 @@ $idProd=$arResult['ID'];
                         <div class="descr-tab">
                             <h3 class="tab-title">Параметры модели</h3>
                             <div class="tab-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa eos esse
-                                    et exercitationem, in, ipsam ipsum iste magnam molestiae nihil qui quo recusandae
-                                    repellat tempore tenetur voluptate. Aliquam, pariatur.</span><span>Blanditiis consequuntur corporis doloremque dolores est ex exercitationem fugiat fugit id impedit incidunt iure nisi nobis nostrum optio placeat quaerat, quidem ratione rem repellat repellendus tenetur voluptas voluptates voluptatibus, voluptatum!</span><span>Aliquam aliquid animi atque consectetur deleniti dicta dignissimos distinctio eius impedit inventore ipsa ipsum laudantium minus natus, nostrum odit provident quibusdam quisquam sed similique sit tempore temporibus ullam, veritatis voluptatum!</span><span>Accusamus ad commodi consectetur consequuntur cum debitis, deleniti doloribus eius enim esse exercitationem iste nam non nostrum nulla obcaecati, possimus praesentium reiciendis repellat sed sint soluta veritatis voluptatem. Mollitia, reprehenderit.</span><span>Accusamus ad culpa cupiditate dignissimos dolores, facere id nemo non quibusdam quo, reprehenderit rerum sapiente sunt. Beatae cumque error ipsum, natus nesciunt, nihil odit praesentium quod, reiciendis repellendus saepe suscipit!</span><span>Earum eum magni maiores quis reprehenderit! Atque commodi, dicta illum ipsam porro quae quas quidem repellat suscipit. Blanditiis eligendi esse et minima necessitatibus quibusdam reprehenderit soluta vitae? Accusamus, iure, non.</span><span>Atque consequuntur delectus deserunt dolore doloribus enim facere harum minus molestias, mollitia nisi omnis optio quidem quo repellat similique sint sit unde vero voluptate! Enim eveniet expedita maiores natus suscipit.</span><span>Cupiditate dolor nemo similique. Ad aspernatur assumenda consequuntur cumque dicta dignissimos dolore doloremque earum, excepturi ipsum laborum magni maiores minima nulla optio qui quia recusandae ullam. Animi assumenda consequuntur iste!</span><span>Deserunt earum illum labore magnam molestias temporibus ut vel vero voluptatum. Amet consectetur corporis dolor, dolorum eum exercitationem ipsam labore magnam magni maxime molestiae perspiciatis placeat reprehenderit veritatis vitae voluptas.</span><span>Alias aliquid consectetur consequatur cum delectus dignissimos distinctio ex facere illum, minus modi molestiae nobis numquam quo, reprehenderit repudiandae sequi veritatis? Consectetur consequatur culpa earum eligendi enim id quis voluptates?
+                                <p>
+
+                                    <?=$arResult["PROPERTIES"]["PARAM_MODEL"]["~VALUE"]['TEXT']?>
+
                                 </p>
                             </div>
                         </div>
                         <div class="descr-tab">
                             <h3 class="tab-title">Материал и уход</h3>
                             <div class="tab-content">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque blanditiis eum
-                                    quaerat sequi sit tenetur veritatis, voluptate. Accusamus commodi, eos iste itaque
-                                    magnam nisi provident repellendus repudiandae sit! Et, perspiciatis!</span><span>Aperiam deserunt dolorum eligendi impedit ipsam libero maiores minus nesciunt, obcaecati optio quae quos ratione, repudiandae sit voluptas. Architecto delectus dolor doloribus et id itaque magnam necessitatibus quam reiciendis temporibus.</span><span>Aliquam asperiores aut cum cupiditate dolorum eos error illo ipsum, iste, quaerat recusandae rerum soluta voluptas? Ad aperiam facilis fugiat incidunt iusto laboriosam minima omnis, quam quia, quis rem voluptatem!</span><span>Accusamus asperiores consequuntur cumque dicta dolorem, esse et exercitationem fuga id ipsum neque nobis nulla numquam officiis optio pariatur perspiciatis, porro quae qui, quo repellendus temporibus ullam voluptate! Ipsum, voluptatem!</span><span>Accusamus distinctio harum hic, molestiae odit temporibus voluptates? Asperiores atque aut consequuntur eaque molestiae nam, natus nemo neque praesentium quae quam quo reiciendis reprehenderit sunt suscipit, ullam vero vitae voluptatum?</span><span>Blanditiis dolorum ducimus ipsum laudantium libero obcaecati perferendis provident ratione, repudiandae sapiente, soluta veniam. Asperiores blanditiis, cumque cupiditate doloremque earum, eius eum neque nobis nulla placeat, quaerat sed ut vero?</span><span>Amet corporis cupiditate eum repellendus ullam. Aspernatur et non omnis sit temporibus ut vero! Consectetur cumque illo incidunt iste labore neque nisi non perspiciatis quas, ratione similique temporibus ut voluptas?</span><span>Accusamus adipisci assumenda at consequatur, corporis dolor doloribus eius in ipsam iure laboriosam libero non numquam perferendis perspiciatis reiciendis veniam voluptatem? Aliquam cupiditate dignissimos et quam quidem quo ratione voluptatem.</span><span>Ducimus fuga molestiae natus quisquam sapiente. Amet atque autem cupiditate dolorem, fugit minima tempore velit voluptates. Ad at dicta fuga iure molestiae optio possimus rem rerum sint ullam. Excepturi, perspiciatis!</span><span>Alias dolores ea eius ipsa laboriosam nobis officiis, quidem repellat tempora totam. Cum cumque delectus exercitationem id illum, ipsum laudantium, modi necessitatibus nobis pariatur recusandae repellat sapiente tempora totam voluptatibus.
+                                <p>  <?=$arResult["PROPERTIES"]["UHOD"]["~VALUE"]['TEXT']?>
                                 </p>
                             </div>
                         </div>
@@ -461,7 +635,7 @@ $idProd=$arResult['ID'];
                                 <div class="delivery-info">
                                     <div class="delivery-info__item">
                                         <div class="icon-block">
-                                            <img src="images/main/svg/delivery_icon1.svg" alt="icon"
+                                            <img src="<?=DEFAULT_TEMPLATE_PATH?>/images/main/svg/delivery_icon1.svg" alt="icon"
                                                  class="delivery-icon">
                                         </div>
                                         <div class="descr-block">
@@ -471,7 +645,7 @@ $idProd=$arResult['ID'];
                                     </div>
                                     <div class="delivery-info__item">
                                         <div class="icon-block">
-                                            <img src="images/main/svg/delivery_icon2.svg" alt="icon"
+                                            <img src="<?=DEFAULT_TEMPLATE_PATH?>/images/main/svg/delivery_icon2.svg" alt="icon"
                                                  class="delivery-icon">
                                         </div>
                                         <div class="descr-block">
@@ -481,7 +655,7 @@ $idProd=$arResult['ID'];
                                     </div>
                                     <div class="delivery-info__item">
                                         <div class="icon-block">
-                                            <img src="images/main/svg/delivery_icon3.svg" alt="icon"
+                                            <img src="<?=DEFAULT_TEMPLATE_PATH?>/images/main/svg/delivery_icon3.svg" alt="icon"
                                                  class="delivery-icon">
                                         </div>
                                         <div class="descr-block">
@@ -497,11 +671,580 @@ $idProd=$arResult['ID'];
             </div>
         </div>
     </main>
+<?
 
-    <pre><?
-        print_r($arResult);
-        print_r($arParams);
-        ?></pre>
+if (!empty($arResult["PROPERTIES"]["OBRAZ"]["VALUE"])){
+
+?>
+    <section class="product-complete">
+        <div class="container">
+            <h2 class="product-complete__title section-title">Завершите образ</h2>
+            <div class="product-complete__content">
+                <div class="product-complete__content__left-side" style="display: none;">
+                    <img src="<?=$mainFoto?>" alt="complete" class="main-image">
+                </div>
+                <div class="product-complete__content__right-side">
+                    <div id="complete-slider" class="complete-list swiper">
+
+
+
+
+
+
+
+
+
+                     <?
+                     foreach ($arResult["PROPERTIES"]["OBRAZ"]["VALUE"] as $itemObraz){
+
+                     ?>
+
+                        <div class="swiper-wrapper">
+
+                         <?
+
+                            $mainColor = "";
+                    $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PAGE_URL", "PROPERTY_*");
+                    $arFilter = array("IBLOCK_ID" => 2, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "ID" => $itemObraz);
+                    $resProdblock = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                    if ($obProdMain = $resProdblock->GetNextElement()) {
+                        $arCart = [];
+                        $item = $obProdMain->GetFields();
+                        $itemProp = $obProdMain->GetProperties();
+
+                        $productTitle = $item["NAME"];
+                        $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PICTURE", "PROPERTY_*");
+                        $arFilter = array("IBLOCK_ID" => 3, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_CML2_LINK" => $item["ID"]);
+                        $resOfferMain = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                        if ($obOfferMain = $resOfferMain->GetNextElement()) {
+
+                            $arFieldsOfferMain = $obOfferMain->GetFields();
+
+                            $allProductPrices = \Bitrix\Catalog\PriceTable::getList([
+                                "select" => ["*"],
+                                "filter" => [
+                                    "=PRODUCT_ID" => $arFieldsOfferMain["ID"],
+                                ],
+                                "order" => ["CATALOG_GROUP_ID" => "ASC"]
+                            ])->fetchAll();
+                            $salePrice = "";
+                            $retailPrice = "";
+                            foreach ($allProductPrices as $itemPrice) {
+                                if ($itemPrice['CATALOG_GROUP_ID'] == 1)
+                                    $salePrice = round($itemPrice['PRICE']);
+                                if ($itemPrice['CATALOG_GROUP_ID'] == 2)
+                                    $retailPrice = round($itemPrice['PRICE']);
+                            }
+                            $renderImage = CFile::ResizeImageGet($arFieldsOfferMain["DETAIL_PICTURE"], array("width" => 92, "height" => 129), BX_RESIZE_IMAGE_PROPORTIONAL);
+                            $Photo = $renderImage["src"];
+
+                            $arPropsOfferMain = $obOfferMain->GetProperties();
+
+                            $resultColor = $hlDataClass::getList(array(
+                                "select" => array("ID", "UF_NAME", "UF_XML_ID", "UF_COLORCOD"), // Поля для выборки
+                                "order" => array(),
+                                "filter" => array("UF_XML_ID" => $arPropsOfferMain["COLOR_REF"]['VALUE']),
+                            ));
+
+                            if ($resp = $resultColor->fetch()) {
+                                $mainColor = $resp['UF_COLORCOD'];
+                            }
+                        }
+
+                        $idSkeep = $item["ID"];
+                        $arCart[] = [
+                            "id" => $item["ID"],
+                            "code" => $item["CODE"],
+                            "img" => "$Photo",
+                            "sale" => $salePrice,
+                            "retail" => $retailPrice,
+                            "color" => "$mainColor",
+                            "href" => $item['DETAIL_PAGE_URL'],
+                        ];
+
+                        $articl = $itemProp["ARTNUMBER"]["VALUE"];
+                        $maxCart = 5;
+                        $totalCart = 0;
+                        $plusColor = 0;
+                        $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PAGE_URL", "PROPERTY_*");
+                        $arFilter = array("IBLOCK_ID" => 2, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_ARTNUMBER" => $articl);
+                        $resProd = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                        while ($obProd = $resProd->GetNextElement()) {
+                            $totalCart++;
+                            if ($totalCart > $maxCart) {
+                                $plusColor++;
+                                continue;
+                            }
+                            $arFieldsProd = $obProd->GetFields();
+                            if ($arFieldsProd["ID"] == $idSkeep) {
+                                continue;
+                            }
+                            $idProd = $arFieldsProd["ID"];
+                            $code = $arFieldsProd["CODE"];
+                            $url = $arFieldsProd["DETAIL_PAGE_URL"];
+                            $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PICTURE", "PROPERTY_*");
+                            $arFilter = array("IBLOCK_ID" => 3, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_CML2_LINK" => $arFieldsProd["ID"]);
+                            $resOffer = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                            if ($obOffer = $resOffer->GetNextElement()) {
+                                $arFieldsOffer = $obOffer->GetFields();
+                                /// print_r($arFieldsOffer);
+                                $renderImage = CFile::ResizeImageGet($arFieldsOffer["DETAIL_PICTURE"], array("width" => 92, "height" => 129), BX_RESIZE_IMAGE_PROPORTIONAL);
+                                $Photo = $renderImage["src"];
+                                $arProps = $obOffer->GetProperties();
+
+                                $resultColor = $hlDataClass::getList(array(
+                                    "select" => array("ID", "UF_NAME", "UF_XML_ID", "UF_COLORCOD"), // Поля для выборки
+                                    "order" => array(),
+                                    "filter" => array("UF_XML_ID" => $arProps["COLOR_REF"]['VALUE']),
+                                ));
+
+
+                                $allProductPrices = \Bitrix\Catalog\PriceTable::getList([
+                                    "select" => ["*"],
+                                    "filter" => [
+                                        "=PRODUCT_ID" => $arFieldsOffer["ID"],
+                                    ],
+                                    "order" => ["CATALOG_GROUP_ID" => "ASC"]
+                                ])->fetchAll();
+                                $salePrice = "";
+                                $retailPrice = "";
+                                foreach ($allProductPrices as $itemPrice) {
+                                    if ($itemPrice['CATALOG_GROUP_ID'] == 1)
+                                        $salePrice = round($itemPrice['PRICE']);
+                                    if ($itemPrice['CATALOG_GROUP_ID'] == 2)
+                                        $retailPrice = round($itemPrice['PRICE']);
+                                }
+
+
+                                if ($resp = $resultColor->fetch()) {
+                                    $mainColor = $resp['UF_COLORCOD'];
+
+                                    $arCart[] = [
+                                        "id" => $idProd,
+                                        "code" => $code,
+                                        "img" => "$Photo",
+                                        "sale" => $salePrice,
+                                        "retail" => $retailPrice,
+                                        "color" => "$mainColor",
+                                        "href" => $url,
+                                    ];
+
+
+                                }
+                            }
+                        }
+                        ?>
+
+                            <div class="swiper-wrapper">
+                                <div class="complete-list__item swiper-slide colors-item slide-item">
+                                    <div class="image-block">
+                                        <div class="colors-slider swiper">
+                                            <div class="swiper-wrapper">
+                                                <?
+                                                foreach ($arCart as $itemCart) {
+                                                    ?>
+                                                    <a data-idProd="<?= $itemCart['id'] ?>" data-sale="<?= $itemCart['sale'] ?>"
+                                                       data-retail="<?= $itemCart['retail'] ?>" href="<?= $itemCart['href'] ?>"
+                                                       class="product-link swiper-slide chengeColor"
+                                                       data-color="<?
+                                                       if (empty($itemCart['color'])) {
+                                                           echo "#bdbdbd";
+                                                       } else {
+                                                           echo $itemCart['color'];
+                                                       }
+                                                       ?>">
+                                                        <img src="<?= $itemCart['img'] ?>" alt="product"
+                                                             class="product-image">
+                                                    </a>
+                                                    <?
+                                                }
+                                                ?>
+<!--                                                <a href="#" class="product-link swiper-slide" data-color="#AEB9A9">-->
+<!--                                                    <img src="images/main/main_page/catalogs/product_image31.jpg" alt="product" class="product-image">-->
+<!--                                                </a>-->
+
+                                            </div>
+                                            <div class="colors-navigation">
+                                                <div class="colors-btn color-prev"><i class="icon icon-slider_arrow"></i></div>
+                                                <div class="colors-btn color-next"><i class="icon icon-slider_arrow"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="descr-block">
+                                        <div class="info-block">
+                                            <a href="#" class="product-name"><?=$productTitle?></a>
+                                            <span class="article"><?=$articl?></span>
+                                            <div class="product-colors">
+                                                <div class="colors-pagination"></div>
+                                                <span class="product-colors__all"><?
+                                                    if (!empty($plusColor)) {
+                                                        ?>
+                                                        + <?
+                                                            echo num_word($plusColor, ["Цвет", "Цвета", "Цветов"]);
+                                                            ?>
+                                                        <?
+                                                    }
+                                                    ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="size-block">
+<!--                                            <select name="size-select" class="choice-select">-->
+<!--                                                <option value="Размер">Размер</option>-->
+<!--                                                <option value="Размер">Размер2</option>-->
+<!--                                                <option value="Размер">Размер3</option>-->
+<!--                                            </select>-->
+                                        </div>
+                                        <div class="price-block">
+                                            <span class="price-title">Цена</span>
+                                            <span class="oldprice"><?
+                                                if (!empty($retailPrice)) {
+                                                    echo "$retailPrice ₽";
+                                                }
+                                                ?></span>
+                                            <span class="price"><?
+                                                if (!empty($salePrice)) {
+
+                                                    echo "$salePrice ₽";
+
+                                                }
+                                                ?></span>
+                                        </div>
+                                        <div class="btn-block">
+                                            <a style="cursor: pointer;" data-idProd="<?= $item["ID"] ?>"
+                                               onclick="window._$productModal.showProductById('<?= $item["ID"] ?>');" class="addcart-link btn-fill-style">Подробнее</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <?
+                    }
+                         ?></div></div><?
+                     }
+                          ?>
+
+                        <div class="swiper-navigation">
+                            <div class="nav-btn btn-prev"><i class="icon icon-slider_arrow"></i></div>
+                            <div class="nav-btn btn-next"><i class="icon icon-slider_arrow"></i></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<? }
+
+if (!empty($arResult["PROPERTIES"]["DOP_PROD"]["VALUE"])){
+
+?>
+    <section class="recently-products product-similar">
+        <div class="container">
+            <h2 class="recently-products__title section-title">Похожие товары</h2>
+            <div class="recently-products__content">
+                <div class="recently-slider swiper">
+                    <div class="swiper-wrapper">
+                        <!-- if colors-slider -->
+
+
+
+
+                        <?
+
+                        foreach ($arResult["PROPERTIES"]["DOP_PROD"]["VALUE"] as $itemPoh){
+
+                        ?>
+
+
+
+
+                        <?
+
+
+                        $mainColor = "";
+                        $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PAGE_URL", "PROPERTY_*");
+                        $arFilter = array("IBLOCK_ID" => 2, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "ID" => $itemPoh);
+                        $resProdblock = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                        if ($obProdMain = $resProdblock->GetNextElement()) {
+                            $arCart = [];
+                            $item = $obProdMain->GetFields();
+                            $itemProp = $obProdMain->GetProperties();
+
+                            $productTitle = $item["NAME"];
+                            $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PICTURE", "PROPERTY_*");
+                            $arFilter = array("IBLOCK_ID" => 3, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_CML2_LINK" => $item["ID"]);
+                            $resOfferMain = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                            if ($obOfferMain = $resOfferMain->GetNextElement()) {
+
+                                $arFieldsOfferMain = $obOfferMain->GetFields();
+                                //  print_r($arFieldsOfferMain);
+                                //  $foto=CFile::GetPath($arFieldsOfferMain["DETAIL_PICTURE"]);
+                                // var_dump($foto);
+
+                                $allProductPrices = \Bitrix\Catalog\PriceTable::getList([
+                                    "select" => ["*"],
+                                    "filter" => [
+                                        "=PRODUCT_ID" => $arFieldsOfferMain["ID"],
+                                    ],
+                                    "order" => ["CATALOG_GROUP_ID" => "ASC"]
+                                ])->fetchAll();
+                                $salePrice = "";
+                                $retailPrice = "";
+                                foreach ($allProductPrices as $itemPrice) {
+                                    if ($itemPrice['CATALOG_GROUP_ID'] == 1)
+                                        $salePrice = round($itemPrice['PRICE']);
+                                    if ($itemPrice['CATALOG_GROUP_ID'] == 2)
+                                        $retailPrice = round($itemPrice['PRICE']);
+                                }
+                                $renderImage = CFile::ResizeImageGet($arFieldsOfferMain["DETAIL_PICTURE"], array("width" => 372, "height" => 600), BX_RESIZE_IMAGE_PROPORTIONAL);
+                                $Photo = $renderImage["src"];
+
+                                $arPropsOfferMain = $obOfferMain->GetProperties();
+
+                                $resultColor = $hlDataClass::getList(array(
+                                    "select" => array("ID", "UF_NAME", "UF_XML_ID", "UF_COLORCOD"), // Поля для выборки
+                                    "order" => array(),
+                                    "filter" => array("UF_XML_ID" => $arPropsOfferMain["COLOR_REF"]['VALUE']),
+                                ));
+
+                                if ($resp = $resultColor->fetch()) {
+                                    $mainColor = $resp['UF_COLORCOD'];
+                                }
+                            }
+
+                            $idSkeep = $item["ID"];
+                            $arCart[] = [
+                                "id" => $item["ID"],
+                                "code" => $item["CODE"],
+                                "img" => "$Photo",
+                                "sale" => $salePrice,
+                                "retail" => $retailPrice,
+                                "color" => "$mainColor",
+                                "href" => $item['DETAIL_PAGE_URL'],
+                            ];
+
+                            $articl = $itemProp["ARTNUMBER"]["VALUE"];
+                            $maxCart = 5;
+                            $totalCart = 0;
+                            $plusColor = 0;
+                            $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PAGE_URL", "PROPERTY_*");
+                            $arFilter = array("IBLOCK_ID" => 2, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_ARTNUMBER" => $articl);
+                            $resProd = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                            while ($obProd = $resProd->GetNextElement()) {
+                                $totalCart++;
+                                if ($totalCart > $maxCart) {
+                                    $plusColor++;
+                                    continue;
+                                }
+                                $arFieldsProd = $obProd->GetFields();
+                                if ($arFieldsProd["ID"] == $idSkeep) {
+                                    continue;
+                                }
+                                $idProd = $arFieldsProd["ID"];
+                                $code = $arFieldsProd["CODE"];
+                                $url = $arFieldsProd["DETAIL_PAGE_URL"];
+                                $arSelect = array("ID", "IBLOCK_ID", "CODE", "NAME", "DETAIL_PICTURE", "PROPERTY_*");
+                                $arFilter = array("IBLOCK_ID" => 3, "ACTIVE_DATE" => "Y", "ACTIVE" => "Y", "PROPERTY_CML2_LINK" => $arFieldsProd["ID"]);
+                                $resOffer = CIblockElement::GetList(array("DATE_CREATE" => "DESC"), $arFilter, false, [], $arSelect);
+                                if ($obOffer = $resOffer->GetNextElement()) {
+                                    $arFieldsOffer = $obOffer->GetFields();
+                                    /// print_r($arFieldsOffer);
+                                    $renderImage = CFile::ResizeImageGet($arFieldsOffer["DETAIL_PICTURE"], array("width" => 372, "height" => 600), BX_RESIZE_IMAGE_PROPORTIONAL);
+                                    $Photo = $renderImage["src"];
+                                    $arProps = $obOffer->GetProperties();
+
+                                    $resultColor = $hlDataClass::getList(array(
+                                        "select" => array("ID", "UF_NAME", "UF_XML_ID", "UF_COLORCOD"), // Поля для выборки
+                                        "order" => array(),
+                                        "filter" => array("UF_XML_ID" => $arProps["COLOR_REF"]['VALUE']),
+                                    ));
+
+
+                                    $allProductPrices = \Bitrix\Catalog\PriceTable::getList([
+                                        "select" => ["*"],
+                                        "filter" => [
+                                            "=PRODUCT_ID" => $arFieldsOffer["ID"],
+                                        ],
+                                        "order" => ["CATALOG_GROUP_ID" => "ASC"]
+                                    ])->fetchAll();
+                                    $salePrice = "";
+                                    $retailPrice = "";
+                                    foreach ($allProductPrices as $itemPrice) {
+                                        if ($itemPrice['CATALOG_GROUP_ID'] == 1)
+                                            $salePrice = round($itemPrice['PRICE']);
+                                        if ($itemPrice['CATALOG_GROUP_ID'] == 2)
+                                            $retailPrice = round($itemPrice['PRICE']);
+                                    }
+
+
+                                    if ($resp = $resultColor->fetch()) {
+                                        $mainColor = $resp['UF_COLORCOD'];
+
+                                        $arCart[] = [
+                                            "id" => $idProd,
+                                            "code" => $code,
+                                            "img" => "$Photo",
+                                            "sale" => $salePrice,
+                                            "retail" => $retailPrice,
+                                            "color" => "$mainColor",
+                                            "href" => $url,
+                                        ];
+
+
+                                    }
+                                }
+                            }
+                            ?>
+                            <div class="slide-item swiper-slide colors-item">
+                                <div class="image-block">
+                                    <div class="product-tags">
+                                        <?
+
+                                        if ($item['PROPERTIES']['SPECIALOFFER']['VALUE'] == "да") {
+
+                                            ?>
+                                            <div class="product-tags__item sale-item">Спец пред.!</div>
+                                            <?
+                                        }
+                                        if ($item['PROPERTIES']['NEWPRODUCT']['VALUE'] == "да") {
+                                            ?>
+                                            <div class="product-tags__item new-item">New</div>
+                                            <?
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="colors-slider swiper">
+                                        <div class="swiper-wrapper">
+
+                                            <?
+                                            foreach ($arCart as $itemCart) {
+                                                ?>
+                                                <a data-idProd="<?= $itemCart['id'] ?>" data-sale="<?= $itemCart['sale'] ?>"
+                                                   data-retail="<?= $itemCart['retail'] ?>" href="<?= $itemCart['href'] ?>"
+                                                   class="product-link swiper-slide chengeColor"
+                                                   data-color="<?
+                                                   if (empty($itemCart['color'])) {
+                                                       echo "#bdbdbd";
+                                                   } else {
+                                                       echo $itemCart['color'];
+                                                   }
+                                                   ?>">
+                                                    <img src="<?= $itemCart['img'] ?>" alt="<?= $itemCart['code'] ?>"
+                                                         class="product-image">
+                                                </a>
+                                                <?
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="colors-navigation">
+                                            <div class="colors-btn color-prev"><i class="icon icon-slider_arrow"></i></div>
+                                            <div class="colors-btn color-next"><i class="icon icon-slider_arrow"></i></div>
+                                        </div>
+                                    </div>
+                                    <div class="product-btns">
+                                        <a style="cursor: pointer; z-index: 99999;" data-item="<?= $item['ID'] ?>"
+                                           class="product-btn favorite-link <?
+
+                                           if (isset($favoritesAr[$item['ID']])) {
+                                               echo "active";
+                                           }
+
+                                           ?>"><i class="icon icon-heart"></i></a>
+                                        <a style="cursor: pointer;" data-idProd="<?= $item["ID"] ?>"
+                                           onclick="window._$productModal.showProductById('<?= $item["ID"] ?>');"
+                                           class="product-btn addcart-link"><i
+                                                    class="icon icon-cart"></i><span>Подробнее</span></a>
+                                    </div>
+                                </div>
+                                <div class="descr-block">
+                                    <a href="#" class="product-name"><?= $productTitle ?></a>
+                                    <span class="product-price">
+                                <span class="oldprice"><?
+
+
+                                    if (!empty($retailPrice)) {
+
+                                        echo "$retailPrice ₽";
+
+                                    }
+
+                                    ?></span>
+                            <span class="price"><?
+
+
+                                if (!empty($salePrice)) {
+
+                                    echo "$salePrice ₽";
+
+                                }
+
+
+                                ?></span>
+                            </span>
+                                    <div class="product-colors">
+                                        <div class="colors-pagination"></div>
+                                        <span class="product-colors__all"><?
+                                            if (!empty($plusColor)) {
+                                                ?>
+                                                <span class="product-colors__all">+ <?
+                                                    echo num_word($plusColor, ["Цвет", "Цвета", "Цветов"]);
+                                                    ?></span>
+                                                <?
+                                            }
+                                            ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?
+                        }
+                        }
+                        ?>
+                        <!-- end colors-slider -->
+                    </div>
+                    <div class="swiper-navigation">
+                        <div class="nav-btn btn-prev"><i class="icon icon-slider_arrow"></i></div>
+                        <div class="nav-btn btn-next"><i class="icon icon-slider_arrow"></i></div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+<?}?>
+
+
+
+    <script>
+
+        $(".addBasketCart").click(function () {
+
+            let idProd = $(".choices__input").val();
+            let ammo= $(".addcart-form .count-group .count-input").val();
+            if (idProd==""){
+                $(".choices__inner").css("border-color","red");
+            }
+            else {
+                $(".choices__inner").css("border-color","#e9e9e9");
+                let basketValue=Number($(".cart-value").text());
+                $(".cart-value").text(basketValue+Number(ammo))
+                $.ajax({
+                    url: '/addbasket.php',
+                    type: 'POST',
+                    data: {prod: idProd,quantity:ammo},
+                    success: (res) => {
+                        console.log(res);
+                    }
+                })
+            }
+        })
+
+
+
+    </script>
+<!--    <pre>--><?//
+//        print_r($arResult);
+//        print_r($arParams);
+//        ?><!--</pre>-->
 
 <?php
 unset($actualItem, $itemIds, $jsParams);

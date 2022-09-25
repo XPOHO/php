@@ -34739,6 +34739,13 @@
                 setTimeout(() => {
                     let idProdBlock = $(this).parent().parent().parent().parent();
                     let idProd = idProdBlock.find('.swiper-slide-active').data("idprod")
+
+                    if (idProd==undefined){
+
+                         idProdBlock = $(this).parent().parent().parent().parent().parent();
+                         idProd = idProdBlock.find('.swiper-slide-active').data("idprod")
+                    }
+
                     let priceRetail = idProdBlock.find('.swiper-slide-active').data("retail")
                     let priceSale = idProdBlock.find('.swiper-slide-active').data("sale")
                     console.log(idProdBlock);
@@ -34814,11 +34821,8 @@
         });
 
 
-        $(".addBasketCart").click(function () {
 
 
-            }
-        )
 
 
     })();

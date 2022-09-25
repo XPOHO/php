@@ -3336,7 +3336,8 @@ select {
 }
 @media (min-width:1200px) {
   .product-page__content {
-    margin-top: 48px
+    margin-top: 48px;
+    padding-top: 20px;
   }
 }
 .product-page__content__left-side {
